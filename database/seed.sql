@@ -30,6 +30,6 @@ VALUES (
     'San Francisco',
     'CA',
     '94105',
-    89.00,
+    9500.00,
     TRUE
 );

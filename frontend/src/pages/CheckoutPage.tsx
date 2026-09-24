@@ -54,6 +54,7 @@ export function CheckoutPage() {
           city: formData.city,
           state: formData.state,
           postalCode: formData.postalCode,
+          orderTotal: 9500,
           isGuest: !loggedInUser
         })
       });
@@ -84,7 +85,7 @@ export function CheckoutPage() {
           <div style={{ background: 'var(--bg-color)', padding: '1.5rem', borderRadius: 'var(--radius-md)', textAlign: 'left' }}>
             <p className="mb-2"><strong>Order ID:</strong> {orderComplete.id}</p>
             <p className="mb-2"><strong>Email:</strong> {orderComplete.email}</p>
-            <p className="mb-2"><strong>Total:</strong> ${orderComplete.orderTotal}</p>
+            <p className="mb-2"><strong>Total:</strong> INR {orderComplete.orderTotal}</p>
             <p><strong>Status:</strong> {orderComplete.isGuest ? 'Guest Checkout' : 'Authenticated Purchase'}</p>
           </div>
         </div>

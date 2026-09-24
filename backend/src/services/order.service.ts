@@ -57,7 +57,7 @@ export async function createOrder(
       input.state.trim(),
       input.postalCode.trim(),
       input.country || "United States",
-      input.orderTotal ?? 89.0,
+      input.orderTotal ?? 9500.0,
       input.isGuest,
     ]
   );

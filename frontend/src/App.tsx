@@ -1,8 +1,14 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { RegistrationPage } from './pages/RegistrationPage';
 import { CheckoutPage } from './pages/CheckoutPage';
+import { API_BASE_URL } from './config/api';
 
 function App() {
+  // silently pre-warming render backend on page load so it wakes up while user fills out form
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/api/health`).catch(() => {});
+  }, []);
   return (
     <BrowserRouter>
       <div className="layout">

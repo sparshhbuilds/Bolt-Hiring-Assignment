@@ -205,7 +205,7 @@ FlashLogin eliminates checkout friction for returning customers by combining rea
       "id": "f47ac10b-58cc-4372-a567-0e02b2c3d4e5",
       "email": "john.doe@example.com",
       "shippingName": "John Doe",
-      "orderTotal": 89.00,
+      "orderTotal": 9500.00,
       "isGuest": false,
       "createdAt": "2026-09-24T14:30:00.000Z"
     }
@@ -262,7 +262,7 @@ CREATE TABLE IF NOT EXISTS orders (
     state VARCHAR(100) NOT NULL,
     postal_code VARCHAR(50) NOT NULL,
     country VARCHAR(100) NOT NULL DEFAULT 'United States',
-    order_total NUMERIC(10, 2) NOT NULL DEFAULT 89.00,
+    order_total NUMERIC(10, 2) NOT NULL DEFAULT 9500.00,
     is_guest BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
