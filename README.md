@@ -8,6 +8,8 @@ A high-performance, full-stack web application demonstrating friction-free user 
 
 FlashLogin eliminates checkout friction for returning customers by combining real-time email recognition with lightweight 6-digit passcode authentication. When a user enters their email address during checkout, the platform asynchronously verifies whether an account exists. If recognized, the user is presented with a non-intrusive modal to authenticate instantly, automatically pre-filling their stored personal and shipping information. If unrecognised or if the user chooses to skip, the system gracefully falls back to a standard guest checkout flow.
 
+> **Important Note on Live Web App Testing**: The live backend service is hosted on Render's free tier. If the web app has been inactive for a few minutes, Render automatically spins down the instance. Please allow up to 50 seconds for the backend service to wake up upon your initial request or email recognition check.
+
 ---
 
 ## Key Features
@@ -333,6 +335,8 @@ CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders (user_id);
    - `DATABASE_URL`: Your PostgreSQL Connection String (If using Supabase on Render, use the Transaction/Session Pooler URL on port 6543 to ensure IPv4 compatibility).
    - `PORT`: `5000` (or allow Render default).
    - `CORS_ORIGIN`: Your frontend URL (e.g. `https://your-app.vercel.app`).
+
+*Note: Render free tier services automatically enter sleep mode after 15 minutes of inactivity. Initial requests after dormancy may take up to 50 seconds to wake up the server.*
 
 ### Deploying Frontend to Vercel
 1. Import project into Vercel and set Root Directory to `frontend`.
