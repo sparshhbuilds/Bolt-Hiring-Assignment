@@ -2,6 +2,11 @@
 
 A high-performance, full-stack web application demonstrating friction-free user recognition, instant authentication via 6-digit passcode, and one-click checkout workflow inspired by modern checkout solutions.
 
+# Application Demo:
+https://github.com/user-attachments/assets/533f9f35-d5e1-4134-9dc1-3dcf1e6ecf03
+
+
+
 ---
 
 ## Executive Summary
