@@ -2,9 +2,7 @@ import { Request, Response } from "express";
 import { z } from "zod";
 import { createOrder, getRecentOrders } from "../services/order.service";
 
-// ---------------------------------------------------------------------------
-// Validation Schema
-// ---------------------------------------------------------------------------
+// zod schema validating checkout form fields like email, address, and total
 const createOrderSchema = z.object({
   userId: z.string().uuid().optional().nullable(),
   email: z.string().email("Please provide a valid email address."),
@@ -20,14 +18,7 @@ const createOrderSchema = z.object({
   isGuest: z.boolean(),
 });
 
-// ---------------------------------------------------------------------------
-// Controller Handlers
-// ---------------------------------------------------------------------------
-
-/**
- * POST /api/orders
- * Submit a checkout form and persist the order to the database.
- */
+// handling order placement when user completes checkout
 export async function handleCreateOrder(
   req: Request,
   res: Response
@@ -62,10 +53,7 @@ export async function handleCreateOrder(
   }
 }
 
-/**
- * GET /api/orders
- * Retrieve recent orders for verification purposes.
- */
+// fetching recent orders list for verification
 export async function handleGetOrders(
   req: Request,
   res: Response

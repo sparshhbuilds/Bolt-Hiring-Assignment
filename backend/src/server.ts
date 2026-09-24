@@ -5,15 +5,13 @@ import { testConnection } from "./config/db";
 import authRoutes from "./routes/auth.routes";
 import orderRoutes from "./routes/order.routes";
 
-// Load environment variables
+// loading environment variables from .env file so we can access database link and port
 dotenv.config();
 
 const app = express();
 const PORT = parseInt(process.env.PORT || "5000", 10);
 
-// ---------------------------------------------------------------------------
-// Middleware
-// ---------------------------------------------------------------------------
+// setting up middleware for cors and json body parsing
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',').map((o) => o.trim())
   : ['http://localhost:5173', 'http://localhost:3000'];
@@ -36,11 +34,9 @@ app.use(
 );
 app.use(express.json({ limit: "1mb" }));
 
-// ---------------------------------------------------------------------------
-// Routes
-// ---------------------------------------------------------------------------
+// mounting API routes for auth and orders
 
-// Health check endpoint for deployment platforms
+// health check route so deployment sites like render know our server and db are alive
 app.get("/api/health", async (_req, res) => {
   const dbHealthy = await testConnection();
   res.status(dbHealthy ? 200 : 503).json({
@@ -50,15 +46,13 @@ app.get("/api/health", async (_req, res) => {
   });
 });
 
-// Auth routes: /api/auth/register, /api/auth/recognize, /api/auth/verify-code
+// auth endpoints handling user register, email recognition, and code verification
 app.use("/api/auth", authRoutes);
 
-// Order routes: /api/orders
+// order endpoints handling checkout submissions
 app.use("/api/orders", orderRoutes);
 
-// ---------------------------------------------------------------------------
-// Global Error Handler
-// ---------------------------------------------------------------------------
+// catch-all error handler so server doesn't crash silently on unexpected errors
 app.use(
   (
     err: Error,
@@ -74,9 +68,7 @@ app.use(
   }
 );
 
-// ---------------------------------------------------------------------------
-// Start Server
-// ---------------------------------------------------------------------------
+// booting up the server on the configured port
 app.listen(PORT, () => {
   console.log(`\n🚀 Bolt Checkout API running on http://localhost:${PORT}`);
   console.log(`   Health check: http://localhost:${PORT}/api/health`);

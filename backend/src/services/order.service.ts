@@ -35,14 +35,7 @@ export interface OrderRecord {
   created_at: string;
 }
 
-// ---------------------------------------------------------------------------
-// Service Functions
-// ---------------------------------------------------------------------------
-
-/**
- * Persist a checkout order to the database.
- * Works for both authenticated users (userId present) and guest checkouts.
- */
+// saving a new order into the database for logged in user or guest checkout
 export async function createOrder(
   input: CreateOrderInput
 ): Promise<OrderRecord> {
@@ -72,9 +65,7 @@ export async function createOrder(
   return result.rows[0];
 }
 
-/**
- * Retrieve recent orders. Useful for verification and admin view.
- */
+// pulling the latest orders from database sorted by newest first
 export async function getRecentOrders(
   limit: number = 20
 ): Promise<OrderRecord[]> {

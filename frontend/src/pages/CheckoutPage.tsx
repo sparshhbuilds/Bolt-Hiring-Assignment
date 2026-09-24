@@ -22,10 +22,10 @@ export function CheckoutPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  // Should we show the modal?
-  // Yes, if recognized AND not logged in AND hasn't dismissed it.
+  // checking if we should display the login prompt modal when email matches an existing account
   const showModal = isRecognized && !loggedInUser && !guestDismissed;
 
+  // sending 6-digit passcode to backend to verify user identity
   const handleVerify = async (code: string) => {
     const res = await fetch(`${API_BASE_URL}/api/auth/verify-code`, {
       method: 'POST',
@@ -35,6 +35,7 @@ export function CheckoutPage() {
     return res.json();
   };
 
+  // submitting order details to backend for guest or signed in user
   const handleCheckoutSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -94,7 +95,7 @@ export function CheckoutPage() {
   return (
     <div className="container" style={{ marginTop: '2rem' }}>
 
-      {/* Logged in Badge */}
+      {/* showing a badge when user successfully verifies passcode and logs in */}
       {loggedInUser && (
         <div style={{ background: '#e0f2fe', border: '1px solid #bae6fd', color: '#0369a1', padding: '1rem 1.5rem', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
           <CheckCircle size={20} />
@@ -103,7 +104,7 @@ export function CheckoutPage() {
       )}
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '2rem' }}>
-        {/* Checkout Form */}
+        {/* checkout form collecting contact info and shipping details */}
         <div className="card">
           <h2 className="mb-6">Checkout</h2>
 
@@ -215,7 +216,7 @@ export function CheckoutPage() {
           </form>
         </div>
 
-        {/* Order Summary Sidebar */}
+        {/* order summary sidebar displaying cart items and pricing */}
         <div>
           <div className="card" style={{ position: 'sticky', top: '2rem' }}>
             <div className="flex items-center gap-2 mb-4" style={{ paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
@@ -257,7 +258,7 @@ export function CheckoutPage() {
         </div>
       </div>
 
-      {/* Recognition Modal */}
+      {/* recognition modal prompting user to log in when recognized email is typed */}
       <RecognitionModal
         isOpen={showModal}
         userEmail={email}

@@ -6,10 +6,10 @@ import {
 
 const router = Router();
 
-// POST /api/orders  – Flow B: Submit checkout form, persist order
+// route to save new order in database for signed in or guest user
 router.post("/", handleCreateOrder);
 
-// GET /api/orders   – Verification: List recent orders
+// route to fetch list of recent orders for verification
 router.get("/", handleGetOrders);
 
 export default router;

@@ -7,13 +7,13 @@ import {
 
 const router = Router();
 
-// POST /api/auth/register   – Flow A: Register user, return 6-digit code
+// register route creating new user and returning a 6-digit login passcode
 router.post("/register", handleRegister);
 
-// POST /api/auth/recognize  – Flow B: Background email recognition check
+// recognize route checking if an email already exists in database as user types
 router.post("/recognize", handleRecognize);
 
-// POST /api/auth/verify-code – Flow B: Validate 6-digit code from modal
+// verify-code route checking if the 6-digit passcode typed in modal matches database
 router.post("/verify-code", handleVerifyCode);
 
 export default router;

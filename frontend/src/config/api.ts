@@ -1,4 +1,2 @@
-// Centralized API Base URL configuration
-// In local dev, falls back to http://localhost:5000
-// In production (Vercel), uses VITE_API_URL set to your Render backend URL
+// grabbing the backend link from env vars or defaulting to localhost port 5000 so api calls don't break
 export const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/$/, '');

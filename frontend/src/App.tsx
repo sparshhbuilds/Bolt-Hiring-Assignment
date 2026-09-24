@@ -6,7 +6,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="layout">
-        {/* Simple Navigation Bar */}
+        {/* top navbar keeping our brand logo, app title, and nav links aligned */}
         <nav className="navbar" style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center' }}>
           <div>
             <Link to="/" className="nav-brand">
@@ -25,7 +25,7 @@ function App() {
           </div>
         </nav>
 
-        {/* Page Content */}
+        {/* main container switching between registration and checkout pages based on url */}
         <main style={{ flex: 1 }}>
           <Routes>
             <Route path="/" element={<Navigate to="/register" replace />} />

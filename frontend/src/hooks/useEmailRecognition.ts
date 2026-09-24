@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { API_BASE_URL } from '../config/api';
 
-// Email validation regex (standard RFC 5322 approximation)
+// regex to make sure email looks legit before we bother calling backend
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 interface RecognitionResult {
@@ -15,27 +15,27 @@ export function useEmailRecognition() {
   const [isChecking, setIsChecking] = useState(false);
   const [recognizedUser, setRecognizedUser] = useState<{ email: string; firstName: string } | null>(null);
   
-  // Ref to hold the current AbortController so we can cancel pending requests
+  // keeping track of pending network requests so we can cancel old ones if user keeps typing
   const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    // Immediately cancel any in-flight requests and wipe previous recognition state
+    // wiping old state and cancelling any active fetch so stale user data doesn't pop up
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
     setIsRecognized(false);
     setRecognizedUser(null);
 
-    // 1. Check valid syntax
+    // skip api call if the user hasn't finished typing a valid email format
     if (!EMAIL_REGEX.test(email)) {
       return;
     }
 
-    // Create a new AbortController for this request
+    // setting up a fresh cancellation handle for this brand new request
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
-    // 2. Debounce the API call
+    // waiting 350ms after typing stops so we don't spam the server on every single letter
     const timer = setTimeout(async () => {
       setIsChecking(true);
       
@@ -68,15 +68,15 @@ export function useEmailRecognition() {
       } finally {
         setIsChecking(false);
       }
-    }, 350); // 350ms debounce time
+    }, 350); // 350ms delay buffer
 
-    // Cleanup function runs if email changes before the timeout fires
+    // clearing timer if the user types another letter before the 350ms finishes
     return () => {
       clearTimeout(timer);
     };
   }, [email]);
 
-  // Clean up abort controller on unmount
+  // aborting any active fetch if the component gets unmounted
   useEffect(() => {
     return () => {
       if (abortControllerRef.current) {
@@ -91,6 +91,6 @@ export function useEmailRecognition() {
     isRecognized,
     isChecking,
     recognizedUser,
-    setIsRecognized // Allow manual override (e.g. to close the modal on skip)
+    setIsRecognized // letting parent components override recognition state like when clicking skip
   };
 }

@@ -16,10 +16,10 @@ export function RecognitionModal({ isOpen, userFirstName, userEmail, onVerify, o
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto-focus input when modal opens
+  // auto focusing the passcode input box when modal pops up so user doesn't have to click
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      // Small timeout to allow CSS animation to start
+      // small delay to let the modal pop animation finish before focusing
       setTimeout(() => inputRef.current?.focus(), 100);
     } else {
       setCode('');

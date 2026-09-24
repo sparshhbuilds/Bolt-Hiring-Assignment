@@ -39,31 +39,20 @@ export interface VerifyResult {
 // Helpers
 // ---------------------------------------------------------------------------
 
-/**
- * Generate a cryptographically secure random 6-digit numeric code.
- * Uses crypto.randomInt for uniform distribution (no modulo bias).
- */
+// generating a secure 6-digit random number code using crypto
 function generateAuthCode(): string {
   const code = crypto.randomInt(100000, 1000000); // range: 100000–999999
   return code.toString();
 }
 
-// ---------------------------------------------------------------------------
-// Service Functions
-// ---------------------------------------------------------------------------
-
-/**
- * Register a new user. Generates a 6-digit auth code.
- * Returns the created user record and the plaintext code.
- * Throws if email is already registered.
- */
+// registering a new user in database and generating their 6-digit passcode
 export async function registerUser(
   input: RegisterInput
 ): Promise<{ user: UserRecord; code: string }> {
   const email = input.email.toLowerCase().trim();
   const code = generateAuthCode();
 
-  // Check if email already exists
+  // checking if this email is already registered in our database
   const existing = await pool.query(
     "SELECT id FROM users WHERE LOWER(email) = $1",
     [email]
@@ -83,10 +72,7 @@ export async function registerUser(
   return { user: result.rows[0], code };
 }
 
-/**
- * Recognize whether an email belongs to a registered user.
- * This is the background check called while the user is typing on checkout.
- */
+// querying database to see if an email matches any registered user
 export async function recognizeEmail(email: string): Promise<RecognizeResult> {
   const normalizedEmail = email.toLowerCase().trim();
 
@@ -109,10 +95,7 @@ export async function recognizeEmail(email: string): Promise<RecognizeResult> {
   };
 }
 
-/**
- * Verify the 6-digit code submitted by the user against the stored code.
- * Returns user details on success, error message on failure.
- */
+// verifying the 6-digit passcode submitted by user against stored code in database
 export async function verifyCode(
   email: string,
   code: string

@@ -6,9 +6,7 @@ import {
   verifyCode,
 } from "../services/auth.service";
 
-// ---------------------------------------------------------------------------
-// Validation Schemas (Zod)
-// ---------------------------------------------------------------------------
+// zod schemas checking request body shapes before hitting the database
 const registerSchema = z.object({
   email: z.string().email("Please provide a valid email address."),
   firstName: z
@@ -33,14 +31,7 @@ const verifyCodeSchema = z.object({
     .regex(/^\d{6}$/, "Code must be a 6-digit number."),
 });
 
-// ---------------------------------------------------------------------------
-// Controller Handlers
-// ---------------------------------------------------------------------------
-
-/**
- * POST /api/auth/register
- * Registers a new user and returns their 6-digit auth code.
- */
+// registering new user, checking duplicate email, and sending back the 6-digit passcode
 export async function handleRegister(
   req: Request,
   res: Response
@@ -82,10 +73,7 @@ export async function handleRegister(
   }
 }
 
-/**
- * POST /api/auth/recognize
- * Background check: does an account exist for the given email?
- */
+// checking if an email belongs to an existing user when user types in checkout
 export async function handleRecognize(
   req: Request,
   res: Response
@@ -109,10 +97,7 @@ export async function handleRecognize(
   }
 }
 
-/**
- * POST /api/auth/verify-code
- * Validates the 6-digit code against the registered user's stored code.
- */
+// validating 6-digit passcode typed in modal against user record in database
 export async function handleVerifyCode(
   req: Request,
   res: Response

@@ -5,6 +5,7 @@ import { API_BASE_URL } from '../config/api';
 
 export function RegistrationPage() {
   const navigate = useNavigate();
+  // keeping form fields in state so we can track first name, last name, and email
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -15,6 +16,7 @@ export function RegistrationPage() {
   const [successCode, setSuccessCode] = useState('');
   const [copied, setCopied] = useState(false);
 
+  // handling form submit when user clicks register to create account and generate code
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -40,12 +42,14 @@ export function RegistrationPage() {
     }
   };
 
+  // copying 6-digit passcode to clipboard and changing button label briefly to copied
   const handleCopy = () => {
     navigator.clipboard.writeText(successCode);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // rendering success screen showing 6-digit login passcode if registration passed
   if (successCode) {
     return (
       <div className="container" style={{ maxWidth: '600px', marginTop: '4rem' }}>
